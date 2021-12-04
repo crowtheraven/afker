@@ -1,0 +1,3 @@
+enable,Key.page_up
+disable,Key.page_down
+sound on,True,Change 'True' to anything else to turn sound off.
