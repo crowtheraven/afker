@@ -6,7 +6,7 @@ def toggleOnOff():
     s.runningScript = not s.runningScript
     wasRunningScript = s.runningScript
     if(s.runningScript):
-        try: gui.after(int(entry2.get()) * 1000, pleaseDontLogOff)
+        try: gui.after(int(float(entry2.get()) * 1000), pleaseDontLogOff)
         except: print(entry2.get(),' is not a valid input.')
         
 def pleaseDontLogOff():
@@ -14,7 +14,7 @@ def pleaseDontLogOff():
         s.typeThis(entry1.get())
         try:
             print('Not afking in ', entry2.get(), ' seconds.')
-            gui.after(int(entry2.get()) * 1000, pleaseDontLogOff)
+            gui.after(int(float(entry2.get()) * 1000), pleaseDontLogOff)
         except: print(entry2.get(),' is not a valid input.')
 
 def backgroundTask():
@@ -25,7 +25,7 @@ def backgroundTask():
         gui.update_idletasks()
         if(not wasRunningScript):
             wasRunningScript = True
-            try: gui.after(int(entry2.get()) * 1000, pleaseDontLogOff)
+            try: gui.after(int(float(entry2.get()) * 1000), pleaseDontLogOff)
             except: print(entry2.get(),' is not a valid input.')
     else:
         if(wasRunningScript): wasRunningScript = False
