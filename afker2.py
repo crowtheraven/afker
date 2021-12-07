@@ -1,10 +1,11 @@
 from pynput.keyboard import Controller as keyboard, Listener, Key
 from pynput.mouse import Controller as mouse, Button
-import time, csv, os, winsound
+import time, csv, winsound
 
 #initialize variables
 keyPressed = False
 runningScript = False
+closeProgram = False
 
 class Command:
     def __init__(self, keyIn, onPress, onRelease):
@@ -105,12 +106,10 @@ def on_press(key):
         if(str(key) == hotkeys[i]):
             if(i == 0 and not runningScript):#enable
                 if(hotkeys[2] == 'True'): winsound.Beep(600, 400)
-                print(hotkeys[2])
                 runningScript = True
             if(i == 1 and runningScript):#disable
                 runningScript = False
                 if(hotkeys[2] == 'True'): winsound.Beep(50, 400) 
-                print(hotkeys[2])
 
 def on_release(key):
     global keyPressed
@@ -124,7 +123,7 @@ def input_thread():
     except:
         try: hotkeys = settingsCsv('afker.csv')
         except: print('ERROR: failed to open afker.txt')
-    while (True):
+    while (not closeProgram):
         with Listener(on_press = on_press, on_release = on_release) as listener:
             listener.join()
     return False

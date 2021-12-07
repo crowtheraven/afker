@@ -52,3 +52,4 @@ entry2.grid(row = 2, column = 1)
 _thread.start_new_thread(s.input_thread, ())
 gui.after(100, backgroundTask)
 gui.mainloop()
+s.closeProgram = True
