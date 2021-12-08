@@ -1,4 +1,4 @@
-import tkinter, afker2 as s, _thread
+import time, tkinter, afker2 as s, _thread
 wasRunningScript = False
 
 def toggleOnOff():
@@ -30,14 +30,28 @@ def backgroundTask():
     else:
         if(wasRunningScript): wasRunningScript = False
         statuslbl.config(text = 'Not pressing keys or anything.')
-        go.config(text = 'PRESS KEYS.')
+        go.config(text = 'Press Keys')
         gui.update_idletasks()
     gui.after(100, backgroundTask)
 
+def pressOnMinute():
+    global wasRunningScript
+    s.runningScript = False
+    wasRunningScript = False
+    temp = time.strftime("%S", time.localtime())
+    while(temp[1] != '0' and temp[1] != '5'):
+        temp = time.strftime("%S", time.localtime())
+    print(temp)
+    s.runningScript = True
+    wasRunningScript = True
+    pleaseDontLogOff()
+
 gui = tkinter.Tk()
 gui.title('Key masher')
-go = tkinter.Button(gui,text = "PRESS KEYS.", command = toggleOnOff, width = 10)
+go = tkinter.Button(gui,text = "Press Keys", command = toggleOnOff, width = 10)
 go.grid(row = 0)
+onMinuteButton = tkinter.Button(gui, text = "Sync Keys", command = pressOnMinute, width = 10)
+onMinuteButton.grid(row = 3)
 tkinter.Label(gui, text = 'Press key(s): ').grid(row = 1)
 tkinter.Label(gui, text = 'Repeat every x seconds: ').grid(row = 2)
 statuslbl = tkinter.Label(gui)
@@ -45,8 +59,8 @@ statuslbl.config(text = 'Not pressing keys or anything.')
 statuslbl.grid(row = 0, column = 1)
 entry1 = tkinter.Entry(gui, width = 30)
 entry2 = tkinter.Entry(gui, width = 5)
-entry1.insert(0, '{enter}{0.1}/clap{enter}')
-entry2.insert(0, '2')
+entry1.insert(0, '{enter}{0.1}/dance{enter}')
+entry2.insert(0, '600')
 entry1.grid(row = 1, column = 1)
 entry2.grid(row = 2, column = 1)
 _thread.start_new_thread(s.input_thread, ())
