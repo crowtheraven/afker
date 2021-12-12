@@ -104,12 +104,19 @@ def on_press(key):
     keyPressed = True
     for i in range(len(hotkeys)):
         if(str(key) == hotkeys[i]):
-            if(i == 0 and not runningScript):#enable
-                if(hotkeys[2] == 'True'): winsound.Beep(600, 400)
-                runningScript = True
-            if(i == 1 and runningScript):#disable
-                runningScript = False
-                if(hotkeys[2] == 'True'): winsound.Beep(50, 400) 
+            if(i == 0):#toggle on/off
+                if(hotkeys[2] == 'True'):
+                    if(not runningScript): winsound.Beep(600, 400)
+                    if(runningScript): winsound.Beep(50, 400)
+                runningScript = not runningScript
+            if(i == 1):#wait and then toogle on/off
+                if(hotkeys[2] == 'True'):
+                    if(not runningScript): winsound.Beep(600, 400)
+                    if(runningScript): winsound.Beep(50, 400)
+                temp = time.strftime("%S", time.localtime())
+                while(temp[1] != '0' and temp[1] != '5'):
+                    temp = time.strftime("%S", time.localtime())
+                runningScript = not runningScript
 
 def on_release(key):
     global keyPressed

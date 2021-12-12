@@ -5,16 +5,12 @@ def toggleOnOff():
     global wasRunningScript
     s.runningScript = not s.runningScript
     wasRunningScript = s.runningScript
-    if(s.runningScript):
-        try: gui.after(int(float(entry2.get()) * 1000), pleaseDontLogOff)
-        except: print(entry2.get(),' is not a valid input.')
+    pleaseDontLogOff()
         
 def pleaseDontLogOff():
     if(s.runningScript):
         s.typeThis(entry1.get())
-        try:
-            print('Not afking in ', entry2.get(), ' seconds.')
-            gui.after(int(float(entry2.get()) * 1000), pleaseDontLogOff)
+        try: gui.after(int(float(entry2.get()) * 1000), pleaseDontLogOff)
         except: print(entry2.get(),' is not a valid input.')
 
 def backgroundTask():
@@ -25,14 +21,13 @@ def backgroundTask():
         gui.update_idletasks()
         if(not wasRunningScript):
             wasRunningScript = True
-            try: gui.after(int(float(entry2.get()) * 1000), pleaseDontLogOff)
-            except: print(entry2.get(),' is not a valid input.')
+            pleaseDontLogOff()
     else:
         if(wasRunningScript): wasRunningScript = False
         statuslbl.config(text = 'Not pressing keys or anything.')
         go.config(text = 'Press Keys')
         gui.update_idletasks()
-    gui.after(100, backgroundTask)
+    gui.after(50, backgroundTask)
 
 def pressOnMinute():
     global wasRunningScript
@@ -41,7 +36,6 @@ def pressOnMinute():
     temp = time.strftime("%S", time.localtime())
     while(temp[1] != '0' and temp[1] != '5'):
         temp = time.strftime("%S", time.localtime())
-    print(temp)
     s.runningScript = True
     wasRunningScript = True
     pleaseDontLogOff()

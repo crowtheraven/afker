@@ -1,3 +1,3 @@
-enable,Key.page_up
-disable,Key.page_down
+toggle on/off,Key.insert
+wait for syncing then toggle on/off,Key.delete
 sound on,True,Change 'True' to anything else to turn sound off.
