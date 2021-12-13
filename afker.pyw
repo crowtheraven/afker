@@ -40,6 +40,7 @@ def pressOnMinute():
     wasRunningScript = True
     pleaseDontLogOff()
 
+_thread.start_new_thread(s.input_thread, ())
 gui = tkinter.Tk()
 gui.title('Key masher')
 go = tkinter.Button(gui,text = "Press Keys", command = toggleOnOff, width = 10)
@@ -53,11 +54,10 @@ statuslbl.config(text = 'Not pressing keys or anything.')
 statuslbl.grid(row = 0, column = 1)
 entry1 = tkinter.Entry(gui, width = 30)
 entry2 = tkinter.Entry(gui, width = 5)
-entry1.insert(0, '{enter}{0.1}/dance{enter}')
-entry2.insert(0, '600')
+entry1.insert(0, s.hotkeys[3])
+entry2.insert(0, s.hotkeys[4])
 entry1.grid(row = 1, column = 1)
 entry2.grid(row = 2, column = 1)
-_thread.start_new_thread(s.input_thread, ())
 gui.after(100, backgroundTask)
 gui.mainloop()
 s.closeProgram = True
