@@ -6,6 +6,7 @@ import time, csv, winsound
 keyPressed = False
 runningScript = False
 closeProgram = False
+hotkeys = []
 
 class Command:
     def __init__(self, keyIn, onPress, onRelease):
