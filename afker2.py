@@ -6,7 +6,9 @@ import time, csv, winsound
 keyPressed = False
 runningScript = False
 closeProgram = False
-hotkeys = []
+changePreset = False
+index = 0
+waitingForNextKey = True
 
 class Command:
     def __init__(self, keyIn, onPress, onRelease):
@@ -101,7 +103,7 @@ def settingsCsv(openThis):
         return hotkeys
 
 def on_press(key):
-    global keyPressed, runningScript
+    global keyPressed, runningScript, changePreset
     keyPressed = True
     for i in range(len(hotkeys)):
         if(str(key) == hotkeys[i]):
@@ -118,6 +120,9 @@ def on_press(key):
                 while(temp[1] != '0' and temp[1] != '5'):
                     temp = time.strftime("%S", time.localtime())
                 runningScript = not runningScript
+            if(i == 3):#change preset
+                print('time to change preset')
+                changePreset = True
 
 def on_release(key):
     global keyPressed
@@ -126,18 +131,33 @@ def on_release(key):
 
 #this is where the main part of the code starts executing
 def input_thread():
-    global hotkeys
-    try: hotkeys = settingsCsv('afker.txt')
-    except:
-        try: hotkeys = settingsCsv('afker.csv')
-        except: print('ERROR: failed to open afker.txt')
     while (not closeProgram):
         with Listener(on_press = on_press, on_release = on_release) as listener:
             listener.join()
     return False
 
+def nextKey_thread():
+    global waitingForNextKey
+    waitingForNextKey = True
+    while(changePreset):
+        with Listener(on_press = changingPreset, on_release = windowIsKill) as listener:
+            listener.join()
+    print('next key thread should be closing*')
+    return False
+
 def windowIsKill(key):
     return False
+        
+def changingPreset(key):
+    global changePreset, index, waitingForNextKey
+    if(changePreset):
+        try:
+            index = keyToInt(key)
+            print('now using preset ', index)
+        except: print('ERROR: not valid input')
+        changePreset = False
+    else: print('not changing preset')
+    waitingForNextKey = False
 
 def findKey(string):
     if(string == 'f1'): return Key.f1
@@ -184,3 +204,9 @@ def checkThis(readycheck, key):
         else:
             readycheck.index = 0
             checkThis(readycheck, key)
+            
+try: hotkeys = settingsCsv('afker.txt')
+except:
+    try: hotkeys = settingsCsv('afker.csv')
+    except: print('ERROR: failed to open afker.txt')
+    
