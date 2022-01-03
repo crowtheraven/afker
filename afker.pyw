@@ -72,7 +72,7 @@ statuslbl.grid(row = 0, column = 2)
 tkinter.Label(gui, text = 'Press key(s): ').grid(row = 1, column = 1)
 tkinter.Label(gui, text = 'Repeat every x seconds: ').grid(row = 1, column = 2)
 presetLoadedLabel = tkinter.Label(gui)
-presetLoadedLabel.config(text = 'Preset 1 Loaded')
+presetLoadedLabel.config(text = 'Preset 0 Loaded')
 presetLoadedLabel.grid(row = 1, column = 0)
 
 #input row
