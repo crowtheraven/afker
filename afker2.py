@@ -1,6 +1,6 @@
 from pynput.keyboard import Controller as keyboard, Listener, Key
 from pynput.mouse import Controller as mouse, Button
-import time, csv, winsound
+import time, csv, winsound, random
 
 #initialize variables
 keyPressed = False
@@ -60,12 +60,15 @@ def typeThis(word):
         #either special key or a wait
         if(word[i] == '{'):
             i = i + 1
-            i = handleBrackets(word, i, True)[0]
+            if(word[i] != '{'): i = handleBrackets(word, i, True)[0]
+            else:
+                keyboard().press('{')
+                keyboard().release('{')
         #press multiple keys at once
         elif(word[i] == '<'):
             i = i + 1
             temp = []
-            while(word[i] != '>'):
+            while(word[i] != '>' and word[i] != '<'):
                 #either special key or a wait
                 if(word[i] == '{'):
                     i = i + 1
@@ -77,6 +80,9 @@ def typeThis(word):
                 i = i + 1
             for j in temp:
                 keyboard().release(j)
+            if(word[i] == '<'):
+                keyboard().press('<')
+                keyboard().release('<')
         #mouse clicks
         elif(word[i] == '('):
             i = i + 1
@@ -89,6 +95,59 @@ def typeThis(word):
                     mouse().release(Button.right)
                 else: print('ERROR: not valid mouse input: ', word[i])
                 i = i + 1
+        #run in random direction
+        elif(word[i] == '['):
+            i = i + 1
+            temp = ''
+            while(word[i] != ']' and word[i] != '['):
+                temp = temp + word[i]
+                i = i + 1
+            try: wait = float(temp)
+            except: print(temp + ' within []s is not a number')
+            rand = random.randrange(0, 8)
+            if(rand == 0):
+                keyboard().press('w')
+                time.sleep(wait)
+                keyboard().release('w')
+            if(rand == 1):
+                keyboard().press('a')
+                time.sleep(wait)
+                keyboard().release('a')
+            if(rand == 2):
+                keyboard().press('s')
+                time.sleep(wait)
+                keyboard().release('s')
+            if(rand == 3):
+                keyboard().press('d')
+                time.sleep(wait)
+                keyboard().release('d')
+            if(rand == 4):
+                keyboard().press('w')
+                keyboard().press('a')
+                time.sleep(wait)
+                keyboard().release('w')
+                keyboard().release('a')
+            if(rand == 5):
+                keyboard().press('a')
+                keyboard().press('s')
+                time.sleep(wait)
+                keyboard().release('a')
+                keyboard().release('s')
+            if(rand == 6):
+                keyboard().press('s')
+                keyboard().press('d')
+                time.sleep(wait)
+                keyboard().release('s')
+                keyboard().release('d')
+            if(rand == 7):
+                keyboard().press('d')
+                keyboard().press('w')
+                time.sleep(wait)
+                keyboard().release('d')
+                keyboard().release('w')
+            if(word[i] == '['):
+                keyboard().press('[')
+                keyboard().release('[')
         else:
             keyboard().press(word[i])
             keyboard().release(word[i])
