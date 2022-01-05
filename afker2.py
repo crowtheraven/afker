@@ -22,29 +22,20 @@ class hotkeyCheck:
         self.word = word
 
 def handleBrackets(word, i, release):
+    temp = ''
+    while(word[i] != '}' and word[i] != '{'):
+        temp = temp + word[i]
+        i = i + 1
     #numeric >> insert wait
-    if(word[i].isnumeric()):
-        moveDecimal = False
-        temp = 0
-        while(word[i] != '}'):
-            if(word[i] == '.'):
-                decimalPlace = 1
-                moveDecimal = True
-            elif(moveDecimal == True):
-                temp = temp + (int(word[i]) / (decimalPlace * 10))
-                decimalPlace = decimalPlace + 1
-            else:
-                temp = (temp * 10) + int(word[i])
-            i = i + 1
+    if(temp.isnumeric()):
         time.sleep(temp)
         return i, False
     #special key
     else:
-        temp = word[i]
-        i = i + 1
-        while(word[i] != '}'):
-            temp = temp + word[i]
-            i = i + 1
+        if(temp == '{'):
+            keyboard().press('{')
+            if(release): keyboard.release('{')
+            return i, '{'
         try:
             key = findKey(temp)
             keyboard().press(key)
