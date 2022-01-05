@@ -58,11 +58,12 @@ def pressOnSync():
     wasRunningScript = True
     pleaseDontLogOff()
     
-def changePreset(i):
+def changePresetFunc(i):
     s.index = i
     textis = 'Preset ' + str(i) + ' Loaded'
     presetLoadedLabel.config(text = textis)
     gui.update_idletasks()
+    s.changePreset = False
     pleaseDontLogOff()
 
 _thread.start_new_thread(s.input_thread, ())
@@ -94,7 +95,7 @@ for i in range(10):
         delayEntry[i].insert(0, s.hotkeys[5+i*2])
         keysEntry[i].grid(row = i+2, column = 1)
         delayEntry[i].grid(row = i+2, column = 2)
-        presetButton.append(tkinter.Button(gui, text = 'Enable ' + str(i), command = lambda temp = i: changePreset(temp)))
+        presetButton.append(tkinter.Button(gui, text = 'Enable ' + str(i), command = lambda temp = i: changePresetFunc(temp)))
         presetButton[i].grid(row = i+2, column = 0)
     except:
         print('index ', i, 'has no preset values and is not being loaded')

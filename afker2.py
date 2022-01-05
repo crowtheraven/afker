@@ -27,15 +27,13 @@ def handleBrackets(word, i, release):
         temp = temp + word[i]
         i = i + 1
     #numeric >> insert wait
-    if(temp.isnumeric()):
+    try:
+        temp = float(temp)
         time.sleep(temp)
         return i, False
     #special key
-    else:
-        if(temp == '{'):
-            keyboard().press('{')
-            if(release): keyboard.release('{')
-            return i, '{'
+    except:
+        print('temp is not numeric')
         try:
             key = findKey(temp)
             keyboard().press(key)
