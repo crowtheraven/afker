@@ -2,6 +2,10 @@ toggle on/off,Key.insert
 wait for syncing then toggle on/off,Key.delete
 sound on,True,Change 'True' to anything else to turn sound off.
 change preset,Key.home
+default of what to type,[0.5]
+default wait between typing,0
+default of what to type,<w{0.2}><wa{0.2}><a{0.2}><as{0.2}><s{0.2}><sd{0.2}><d{0.2}><dw{0.2}>
+default wait between typing,0
 default of what to type,{enter}{0.1}/dance{3}{enter}
 default wait between typing,300
 default of what to type,{enter}{0.1}/sit{3}{enter}
