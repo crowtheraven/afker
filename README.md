@@ -12,6 +12,8 @@ You can use the change preset key to change to a different preset. The default k
 
 [*number here*] - hold down a, aw, w, wd, d, ds, s, or sa for that much time (random running basically)
 
+[*keys here**number here*] - hold down the keys, but also press the other keys during it. so, if you want to jump and iframe while random moving...
+
 (l) or (r) - mouse clicks
 
 <> - hold down multiple keys at once
