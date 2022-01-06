@@ -86,7 +86,13 @@ def typeThis(word):
                 i = i + 1
         #run in random direction
         elif(word[i] == '['):
+            spacebarred = False
             i = i + 1
+            pressArray = []
+            while(not word[i].isnumeric()):
+                pressArray.append(word[i])
+                spacebarred = True
+                i = i + 1
             temp = ''
             while(word[i] != ']' and word[i] != '['):
                 temp = temp + word[i]
@@ -96,41 +102,49 @@ def typeThis(word):
             rand = random.randrange(0, 8)
             if(rand == 0):
                 keyboard().press('w')
+                if(spacebarred): typeThis(pressArray)
                 time.sleep(wait)
                 keyboard().release('w')
             if(rand == 1):
                 keyboard().press('a')
+                if(spacebarred): typeThis(pressArray)
                 time.sleep(wait)
                 keyboard().release('a')
             if(rand == 2):
                 keyboard().press('s')
+                if(spacebarred): typeThis(pressArray)
                 time.sleep(wait)
                 keyboard().release('s')
             if(rand == 3):
                 keyboard().press('d')
+                if(spacebarred): typeThis(pressArray)
                 time.sleep(wait)
                 keyboard().release('d')
             if(rand == 4):
                 keyboard().press('w')
                 keyboard().press('a')
+                if(spacebarred): typeThis(pressArray)
                 time.sleep(wait)
                 keyboard().release('w')
                 keyboard().release('a')
             if(rand == 5):
                 keyboard().press('a')
                 keyboard().press('s')
+                if(spacebarred): typeThis(pressArray)
                 time.sleep(wait)
                 keyboard().release('a')
                 keyboard().release('s')
             if(rand == 6):
                 keyboard().press('s')
                 keyboard().press('d')
+                if(spacebarred): typeThis(pressArray)
                 time.sleep(wait)
                 keyboard().release('s')
                 keyboard().release('d')
             if(rand == 7):
                 keyboard().press('d')
                 keyboard().press('w')
+                if(spacebarred): typeThis(pressArray)
                 time.sleep(wait)
                 keyboard().release('d')
                 keyboard().release('w')
