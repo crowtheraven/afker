@@ -33,7 +33,6 @@ def handleBrackets(word, i, release):
         return i, False
     #special key
     except:
-        print('temp is not numeric')
         try:
             key = findKey(temp)
             keyboard().press(key)
@@ -166,25 +165,24 @@ def settingsCsv(openThis):
 
 def on_press(key):
     global keyPressed, runningScript, changePreset
-    keyPressed = True
-    for i in range(len(hotkeys)):
-        if(str(key) == hotkeys[i]):
-            if(i == 0):#toggle on/off
-                if(hotkeys[2] == 'True'):
-                    if(not runningScript): winsound.Beep(600, 400)
-                    if(runningScript): winsound.Beep(50, 400)
-                runningScript = not runningScript
-            if(i == 1):#wait and then toogle on/off
-                if(hotkeys[2] == 'True'):
-                    if(not runningScript): winsound.Beep(600, 400)
-                    if(runningScript): winsound.Beep(50, 400)
+    if(not keyPressed):
+        if(str(key) == hotkeys[0]):#toggle on/off
+            if(hotkeys[2] == 'True'):
+                if(not runningScript): winsound.Beep(600, 400)
+                if(runningScript): winsound.Beep(50, 400)
+            runningScript = not runningScript
+        elif(str(key) == hotkeys[1]):#wait and then toogle on/off
+            if(hotkeys[2] == 'True'):
+                if(not runningScript): winsound.Beep(600, 400)
+                if(runningScript): winsound.Beep(50, 400)
+            temp = time.strftime("%S", time.localtime())
+            while(temp[1] != '0' and temp[1] != '5'):
                 temp = time.strftime("%S", time.localtime())
-                while(temp[1] != '0' and temp[1] != '5'):
-                    temp = time.strftime("%S", time.localtime())
-                runningScript = not runningScript
-            if(i == 3):#change preset
-                print('time to change preset')
-                changePreset = True
+            runningScript = not runningScript
+        elif(str(key) == hotkeys[3]):#change preset
+            print('time to change preset')
+            changePreset = True        
+    keyPressed = True
 
 def on_release(key):
     global keyPressed
