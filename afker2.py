@@ -9,6 +9,7 @@ closeProgram = False
 changePreset = False
 index = 0
 waitingForNextKey = True
+randomLines = []
 
 class Command:
     def __init__(self, keyIn, onPress, onRelease):
@@ -41,6 +42,9 @@ def handleBrackets(word, i, release):
         except:
             print("ERROR: can't press Key.", temp)
         return i, False
+
+def pressThese(word):
+    typeThis(word)
 
 def typeThis(word):
     i = 0
@@ -88,10 +92,11 @@ def typeThis(word):
             spacebarred = False
             i = i + 1
             pressArray = []
-            while(not word[i].isnumeric()):
-                pressArray.append(word[i])
+            if(not word[i].isnumeric()):
                 spacebarred = True
-                i = i + 1
+                while(not word[i].isnumeric()):
+                    pressArray.append(word[i])
+                    i = i + 1
             temp = ''
             while(word[i] != ']' and word[i] != '['):
                 temp = temp + word[i]
@@ -101,67 +106,73 @@ def typeThis(word):
             rand = random.randrange(0, 8)
             if(rand == 0):
                 keyboard().press('w')
-                if(spacebarred): typeThis(pressArray)
+                if(spacebarred): pressThese(pressArray)
                 time.sleep(wait)
                 keyboard().release('w')
-            if(rand == 1):
+            elif(rand == 1):
                 keyboard().press('a')
-                if(spacebarred): typeThis(pressArray)
+                if(spacebarred): pressThese(pressArray)
                 time.sleep(wait)
                 keyboard().release('a')
-            if(rand == 2):
+            elif(rand == 2):
                 keyboard().press('s')
-                if(spacebarred): typeThis(pressArray)
+                if(spacebarred): pressThese(pressArray)
                 time.sleep(wait)
                 keyboard().release('s')
-            if(rand == 3):
+            elif(rand == 3):
                 keyboard().press('d')
-                if(spacebarred): typeThis(pressArray)
+                if(spacebarred): pressThese(pressArray)
                 time.sleep(wait)
                 keyboard().release('d')
-            if(rand == 4):
+            elif(rand == 4):
                 keyboard().press('w')
                 keyboard().press('a')
-                if(spacebarred): typeThis(pressArray)
+                if(spacebarred): pressThese(pressArray)
                 time.sleep(wait)
                 keyboard().release('w')
                 keyboard().release('a')
-            if(rand == 5):
+            elif(rand == 5):
                 keyboard().press('a')
                 keyboard().press('s')
-                if(spacebarred): typeThis(pressArray)
+                if(spacebarred): pressThese(pressArray)
                 time.sleep(wait)
                 keyboard().release('a')
                 keyboard().release('s')
-            if(rand == 6):
+            elif(rand == 6):
                 keyboard().press('s')
                 keyboard().press('d')
-                if(spacebarred): typeThis(pressArray)
+                if(spacebarred): pressThese(pressArray)
                 time.sleep(wait)
                 keyboard().release('s')
                 keyboard().release('d')
-            if(rand == 7):
+            else:
                 keyboard().press('d')
                 keyboard().press('w')
-                if(spacebarred): typeThis(pressArray)
+                if(spacebarred): pressThese(pressArray)
                 time.sleep(wait)
                 keyboard().release('d')
                 keyboard().release('w')
             if(word[i] == '['):
                 keyboard().press('[')
                 keyboard().release('[')
+        #type random message
+        elif(word[i] == '?'):
+            time.sleep(0.1)
+            keyboard().press(Key.enter)
+            keyboard().release(Key.enter)
+            time.sleep(0.1)
+            rand = random.randrange(0, len(randomLines))
+            typeThis = str(randomLines[rand])
+            for i in range(len(typeThis)-4):
+                keyboard().press(typeThis[i+2])
+                keyboard().release(typeThis[i+2])
+            time.sleep(0.1)
+            keyboard().press(Key.enter)
+            keyboard().release(Key.enter)
         else:
             keyboard().press(word[i])
             keyboard().release(word[i])
         i = i + 1
-
-def settingsCsv(openThis):
-    hotkeys = []
-    with open(openThis, 'r') as file:
-        reader = csv.reader(file, delimiter = ',')
-        for row in reader:
-            hotkeys.append(row[1])
-        return hotkeys
 
 def on_press(key):
     global keyPressed, runningScript, changePreset
@@ -264,9 +275,30 @@ def checkThis(readycheck, key):
         else:
             readycheck.index = 0
             checkThis(readycheck, key)
-            
-try: hotkeys = settingsCsv('afker.txt')
-except:
-    try: hotkeys = settingsCsv('afker.csv')
-    except: print('ERROR: failed to open afker.txt')
+
+def loadSettings(openThis):
+    hotkeys = []
+    with open(openThis, 'r') as file:
+        reader = csv.reader(file, delimiter = ',')
+        for row in reader:
+            hotkeys.append(row[1])
+        file.close()
+        return hotkeys
     
+def loadRandomLines():
+    randomLines = []
+    with open('randomlines.txt', 'r') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            randomLines.append(row)
+        file.close()
+        return randomLines
+                
+try: hotkeys = loadSettings('afker.txt')
+except:
+    try: hotkeys = loadSettings('afker.csv')
+    except: print('ERROR: failed to open afker.txt')
+time.sleep(0.1)
+try: randomLines = loadRandomLines()
+except: print('ERROR: failed to load randomlines.txt')
+

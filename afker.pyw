@@ -6,12 +6,18 @@ def toggleOnOff():
     s.runningScript = not s.runningScript
     wasRunningScript = s.runningScript
     pleaseDontLogOff()
-        
+
+
 def pleaseDontLogOff():
     if(s.runningScript):
-        s.typeThis(keysEntry[s.index].get())
-        try: gui.after(int(float(delayEntry[s.index].get()) * 1000), pleaseDontLogOff)
-        except: print(delayEntry[s.index].get(),' is not a valid input.')
+        try: s.typeThis(keysEntry[s.index].get())
+        except:
+            print('ERROR: failed to run script')
+            s.runningScript = False
+        try:
+            gui.after(int(float(delayEntry[s.index].get()) * 1000), pleaseDontLogOff)
+        except:
+            print(delayEntry[s.index].get(), ' is not a valid input.')
         
 def changeScript():
     s.changePreset = True
