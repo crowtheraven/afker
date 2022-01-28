@@ -17,3 +17,5 @@ You can use the change preset key to change to a different preset. The default k
 (l) or (r) - mouse clicks
 
 <> - hold down multiple keys at once
+
+? - Type a random line from randomlines.txt. It also presses enter before and after the line.
