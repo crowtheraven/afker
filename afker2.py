@@ -10,6 +10,7 @@ changePreset = False
 index = 0
 waitingForNextKey = True
 randomLines = []
+killThread = False
 
 class Command:
     def __init__(self, keyIn, onPress, onRelease):
@@ -175,13 +176,17 @@ def typeThis(word):
         i = i + 1
 
 def on_press(key):
-    global keyPressed, runningScript, changePreset
+    global keyPressed, runningScript, changePreset, killThread
     if(not keyPressed):
         if(str(key) == hotkeys[0]):#toggle on/off
             if(hotkeys[2] == 'True'):
-                if(not runningScript): winsound.Beep(600, 400)
-                if(runningScript): winsound.Beep(50, 400)
-            runningScript = not runningScript
+                if(not runningScript):
+                    winsound.Beep(600, 400)
+                    runningScript = True
+                else:
+                    winsound.Beep(50, 400)
+                    runningScript = False
+                    killThread = True
         elif(str(key) == hotkeys[1]):#wait and then toogle on/off
             if(hotkeys[2] == 'True'):
                 if(not runningScript): winsound.Beep(600, 400)

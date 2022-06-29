@@ -3,21 +3,31 @@ wasRunningScript = False
 
 def toggleOnOff():
     global wasRunningScript
-    s.runningScript = not s.runningScript
-    wasRunningScript = s.runningScript
-    pleaseDontLogOff()
-
+    if(s.runningScript):
+        print('kill next thread')
+        s.killThread = True
+        s.runningScript = False
+        wasRunningScript = False
+    else:
+        s.runningScript = True
+        wasRunningScript = True
 
 def pleaseDontLogOff():
-    if(s.runningScript):
+    if(not s.killThread):
         try: s.typeThis(keysEntry[s.index].get())
         except:
             print('ERROR: failed to run script')
             s.runningScript = False
         try:
+            s.runningScript = True
+            print('script already on, should not be starting new threads')
             gui.after(int(float(delayEntry[s.index].get()) * 1000), pleaseDontLogOff)
         except:
+            s.runningScript = False
             print(delayEntry[s.index].get(), ' is not a valid input.')
+    else:
+        print('thread killed')
+        s.killThread = False
         
 def changeScript():
     s.changePreset = True
@@ -32,7 +42,7 @@ def changeScript():
     textis = 'Preset ' + str(hi) + ' Loaded'
     presetLoadedLabel.config(text = textis)
     gui.update_idletasks()
-    pleaseDontLogOff()
+    if(s.runningScript): pleaseDontLogOff()
     
 def backgroundTask():
     global wasRunningScript
@@ -70,7 +80,6 @@ def changePresetFunc(i):
     presetLoadedLabel.config(text = textis)
     gui.update_idletasks()
     s.changePreset = False
-    pleaseDontLogOff()
 
 _thread.start_new_thread(s.input_thread, ())
 gui = tkinter.Tk()
